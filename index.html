@@ -152,75 +152,13 @@
 
             <div class="form-group">
                 <label for="phone">الهاتف</label>
-                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف متوبع برمز الدولة" required>
-            </div>
-
-            <div class="form-group">
-                <label>أي مرحلة تفضل؟</label>
-                <div class="radio-options">
-                    <input type="radio" id="primary" name="like" value="الابتدائي" required>
-                    <label for="primary">الابتدائي</label>
-
-                    <input type="radio" id="middle" name="like" value="المتوسط">
-                    <label for="middle">المتوسط</label>
-
-                    <input type="radio" id="secondary" name="like" value="الثانوي">
-                    <label for="secondary">الثانوي</label>
-                </div>
-            </div>
-
-            <button type="submit" class="btn">إرسال</button>
-        </form>
-    </div>
-
-    <script>
-        window.onload = function () {
-            const surveyForm = document.getElementById('survey-form');
-            surveyForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // الحصول على البيانات من النموذج
-                const name = document.getElementById("name").value;
-                const phone = document.getElementById("phone").value;
-                const like = document.querySelector('input[name="like"]:checked').value;
-
-                // إرسال البيانات إلى Google Sheets
-                var data = {
-                    "name": name,
-                    "phone": phone,
-                    "like": like
-                };
-
-                var url = "https://script.google.com/macros/s/AKfycbyhtmi3BhYlVtqgB4qzT45Sw_eh_qAfqeKjvE-YC8cwT1HffasYPqbeX4b0Wrq1KaYCnA/exec"; // رابط الـ Web App
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams(data)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Success:', result);
-
-                    // عرض رسالة التأكيد
-                    const messageDiv = document.createElement('div');
-                    messageDiv.id = 'message';
-                    messageDiv.innerHTML = "تم إرسال البيانات بنجاح! سيتم إرسال رسالة شكر عبر WhatsApp.";
-                    document.querySelector('.container').appendChild(messageDiv);
-
-                    // تفريغ الحقول بعد الإرسال
-                    document.getElementById("name").value = '';
-                    document.getElementById("phone").value = '';
-                    document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
-
-                    // إعداد رسالة WhatsApp
+                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف متبوع برمز الدولة" required>
+                    // إعداد رسالة WhatsApp مع الرابط الجديد
                     const whatsappMessage = `مرحبا ${name} 😊،\n\nشكراً لك على زيارتنا وتقييم جناح مدارس أنجال الصفوة! نتمنى أن تكون تجربتك رائعة معنا 🌟.\n\n🔗 نتشرف بزيارتك لموقعنا الإلكتروني للاطلاع على المزيد:\nhttps://www.anjalalsifwa.com/\n\n📘 يمكنك أيضًا تحميل الكتيب الخاص بنا عبر الرابط التالي:\nhttps://drive.google.com/file/d/1Tbf70ObdmfW8-0XZk-9DPZfEldvxyTmn/view?usp=sharing\n\nمع خالص التحيات،\nمدارس أنجال الصفوة 💚`;
 
-                    const whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`;
+                    const whatsappLink = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(whatsappMessage)}`;
                     
-                    // توجيه المستخدم إلى WhatsApp بعد 1 ثانية
+                    // توجيه المستخدم إلى WhatsApp Web بعد 1 ثانية
                     setTimeout(function () {
                         window.open(whatsappLink, '_blank');
 
